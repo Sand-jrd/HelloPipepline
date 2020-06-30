@@ -1,6 +1,5 @@
 // ----  My first Jenking File --- //
 
-Jenkinsfile (Declarative Pipeline)
 pipeline {
 // ----------------   EXECUION ENVIRONMENT    ---------------- //
     agent any
@@ -9,7 +8,7 @@ pipeline {
 								// ----------------   SOUCRE CODE    ---------------- //
 								
 	    stage('Clone sources') {
-        git url: 'https://github.com/Sand-jrd/CALSI-Projet-S8-.git'
+        		git url: 'https://github.com/Sand-jrd/CALSI-Projet-S8-.git'
 		}
 			
 								// ----------------      BUILD       ---------------- //
