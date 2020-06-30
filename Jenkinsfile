@@ -13,13 +13,14 @@ pipeline {
 					credentialsId: 'f571a7e2-ea64-4d64-bdc9-e09ec8629466',
 					url: 'https://github.com/Sand-jrd/CALSI-Projet-S8-.git'
             }
+		    
        			 
 		}
 			
 								// ----------------      BUILD       ---------------- //
         stage('Build') {
             steps {
-                sh 'echo no build for now ...' 
+                echo "no build for now"
             }
         }
     }
