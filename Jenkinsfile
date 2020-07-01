@@ -6,7 +6,7 @@ pipeline {
 	
  environment {
         def file_name_requirements = "serverless"
-	def file_name = "serverlessExecutableJar"
+	def file_name = "NOPEserverlessExecutableJar"
     }	
 	
     stages {
