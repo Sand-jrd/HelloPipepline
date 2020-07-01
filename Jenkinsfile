@@ -5,44 +5,38 @@ pipeline {
     agent any
 	
  environment {
-        def file_name_requirements = "serverless"
-	def file_name = "false"
-	def file_ex = "false"
-    }	
+        
+	// PATHS
+	def SRC_URL = "https://github.com/Sand-jrd/SampleApplicationWar.git"
+	def SRC_ID = "f571a7e2-ea64-4d64-bdc9-e09ec8629466"
+	def SERVER_URL = "http://localhost:8181/sample/"
+	// CHECKOUT PARAMETERS
+	def file_name_requirements = "serverless"
+	def file_cond = "*.war"
+    }
 	
     stages {
-
-								
+						
 		stage('Clone sources') {
 		    steps {
 			    
 			// Clone from git
 			git branch: 'master',
-				credentialsId: 'f571a7e2-ea64-4d64-bdc9-e09ec8629466',
-				url: 'https://github.com/Sand-jrd/SampleApplicationWar.git'
-			    
+				credentialsId: ${SRC_ID},
+				url: ${SRC_URL}
 		    }
 		}
-
-	    	/*
-		stage ('Test 3: Master') {
-			when { branch 'master' }
-			steps { 
-				echo 'I only execute on the master branch.' 
-			}
-		}
-		*/
 	    
 		stage ('Checkout') {
 			steps { 
 				script {
 					
-					def files = findFiles glob: '*.war'
+					def files = findFiles glob: ${file_cond}
 					
 					//Check
 					files.each { item ->
 						if (item.name.startsWith(file_name_requirements)) {
-							file_name = item.name;
+							def file_name = item.name;
 							echo 'Checkout sucess'
 						} else {
 							currentBuild.result = 'ABORTED'
@@ -53,9 +47,21 @@ pipeline {
 			}
 		}
 			
-		stage('Bucket Transition') {
+		stage('Transition') {
 		    steps {
-			echo "no build for now"
+			echo ${SERVER_URL}
+		    }
+		}
+	    
+		stage('Deploy Lambda') {
+		    steps {
+			echo "..."
+		    }
+		}
+	    
+		stage('Test') {
+		    steps {
+			echo "..."
 		    }
 		}
     }
