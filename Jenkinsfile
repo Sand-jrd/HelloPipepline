@@ -22,8 +22,8 @@ pipeline {
 			    
 			// Clone from git
 			git branch: 'master',
-				credentialsId: ${SRC_ID},
-				url: ${SRC_URL}
+				credentialsId: "${SRC_ID}",
+				url: "${SRC_URL}"
 		    }
 		}
 	    
@@ -31,7 +31,7 @@ pipeline {
 			steps { 
 				script {
 					
-					def files = findFiles glob: ${file_cond}
+					def files = findFiles glob: "${file_cond}"
 					
 					//Check
 					files.each { item ->
@@ -49,7 +49,7 @@ pipeline {
 			
 		stage('Transition') {
 		    steps {
-			echo ${SERVER_URL}
+			echo "${SERVER_URL}"
 		    }
 		}
 	    
