@@ -6,7 +6,8 @@ pipeline {
 	
  environment {
         def file_name_requirements = "serverless"
-	 def file_name = "false"
+	def file_name = "false"
+	def file_ex = "false"
     }	
 	
     stages {
@@ -19,9 +20,7 @@ pipeline {
 			git branch: 'master',
 				credentialsId: 'f571a7e2-ea64-4d64-bdc9-e09ec8629466',
 				url: 'https://github.com/Sand-jrd/SampleApplicationWar.git'
-			
-		        // Set Variable
-			def files = findFiles glob: '*.war'
+			    
 		    }
 		}
 
@@ -38,7 +37,9 @@ pipeline {
 			steps { 
 				script {
 					
-					//Check for item
+					def files = findFiles glob: '*.war'
+					
+					//Check
 					files.each { item ->
 						if (item.name.startsWith(file_name_requirements)) {
 							file_name = item.name;
