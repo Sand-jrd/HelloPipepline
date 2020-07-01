@@ -57,7 +57,7 @@ pipeline {
 		stage('Transition') {
 		    steps {
 			  script {
-			    	Files.copy("${WORKSPACE}/${file_name}", SERVER_PATH)
+			    	bat("xcopy ${WORKSPACE}/${file_name} ${SERVER_PATH}")
 			    }
 		    }
 		}
