@@ -50,7 +50,9 @@ pipeline {
 			
 		stage('Transition') {
 		    steps {
-			    Files.copy("${WORKSPACE}/${file_name}", SERVER_PATH)
+			    script {
+			    	Files.copy("${WORKSPACE}/${file_name}", SERVER_PATH)
+			    }
 		    }
 		}
 	    
