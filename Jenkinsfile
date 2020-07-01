@@ -9,10 +9,11 @@ pipeline {
 	// PATHS
 	def SRC_URL = "https://github.com/Sand-jrd/SampleApplicationWar.git"
 	def SRC_ID = "f571a7e2-ea64-4d64-bdc9-e09ec8629466"
-	def SERVER_URL = "http://localhost:8181/sample/"
+	def SERVER_PATH = "C:\Program Files\Apache Software Foundation\Tomcat 8.5\webapps"
 	// CHECKOUT PARAMETERS
 	def file_name_requirements = "serverless"
 	def file_cond = "*.war"
+	
     }
 	
     stages {
@@ -49,7 +50,7 @@ pipeline {
 			
 		stage('Transition') {
 		    steps {
-			echo "${SERVER_URL}"
+			    Files.copy("${WORKSPACE}\${file_name}", SERVER_PATH)
 		    }
 		}
 	    
