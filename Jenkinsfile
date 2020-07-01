@@ -57,7 +57,7 @@ pipeline {
 		stage('Transition') {
 		    steps {
 			  script {
-			    	bat("xcopy \"${WORKSPACE}\" \"${SERVER_PATH}\"")
+			    	bat("xcopy \"${WORKSPACE}\" \"${SERVER_PATH}\" /Y")
 			    }
 		    }
 		}
