@@ -13,6 +13,8 @@ pipeline {
 	// CHECKOUT PARAMETERS
 	def file_name_requirements = "serverless"
 	def file_cond = "*.war"
+	// GLOBAL VARIABLE DECLARATION
+	def file_name = ""
 	
     }
 	
@@ -37,13 +39,17 @@ pipeline {
 					//Check
 					files.each { item ->
 						if (item.name.startsWith(file_name_requirements)) {
-							def file_name = item.name;
+							file_name = item.name;
 							echo 'Checkout sucess'
-						} else {
-							currentBuild.result = 'ABORTED'
-							error('Checkout failed')
 						}
 					}
+					
+					//Abort if no files founded
+					if (file_name == "") {
+							currentBuild.result = 'ABORTED'
+							error('Checkout failed')
+					}
+					
 				}
 			}
 		}
