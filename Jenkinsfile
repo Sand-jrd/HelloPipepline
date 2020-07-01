@@ -50,10 +50,7 @@ pipeline {
 			
 		stage('Transition') {
 		    steps {
-			    script {
-				import java.nio.file.Files
-			    	Files.copy("${WORKSPACE}/${file_name}", SERVER_PATH)
-			    }
+			   cp "${WORKSPACE}/${file_name}" SERVER_PATH
 		    }
 		}
 	    
