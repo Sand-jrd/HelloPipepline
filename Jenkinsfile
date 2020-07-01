@@ -30,9 +30,15 @@ pipeline {
 		*/
 	    
 		stage ('Checkout') {
-			when { file_name.startsWith(file_name_requirements) }
-			steps {
-				echo 'Checkout sucess'
+			steps { 
+				script {
+					if (file_name.startsWith(file_name_requirements) {
+						echo 'Checkout sucess'
+					} else {
+						currentBuild.result = 'ABORTED'
+    						error('Checkout failed')
+					}
+				}
 			}
 		}
 			
