@@ -20,10 +20,10 @@ pipeline {
 								// ----------------      BUILD       ---------------- //
         stage('Build') {
             steps {
-		    step('One step'){
+		    step{
                 	echo "no build for now"
 		    }
-		    step('Another Sep'){
+		    step{
                 	echo "no build for now2"
 		    }
             }
