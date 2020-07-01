@@ -21,7 +21,7 @@ pipeline {
 				url: 'https://github.com/Sand-jrd/SampleApplicationWar.git'
 			
 		        // Set Variable
-			def files = findFiles(glob: '**/.pjs')
+			def files = findFiles glob: '*.war'
 		    }
 		}
 
