@@ -32,7 +32,7 @@ pipeline {
 		stage ('Checkout') {
 			steps { 
 				script {
-					if (file_name.startsWith(file_name_requirements) {
+					if (file_name.startsWith(file_name_requirements)) {
 						echo 'Checkout sucess'
 					} else {
 						currentBuild.result = 'ABORTED'
