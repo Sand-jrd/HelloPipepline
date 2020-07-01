@@ -6,7 +6,7 @@ pipeline {
 	
  environment {
         def file_name_requirements = "serverless"
-	def file_name = "NOPEserverlessExecutableJar"
+	 def file_name = "false"
     }	
 	
     stages {
@@ -14,9 +14,14 @@ pipeline {
 								
 		stage('Clone sources') {
 		    steps {
+			    
+			// Clone from git
 			git branch: 'master',
 				credentialsId: 'f571a7e2-ea64-4d64-bdc9-e09ec8629466',
-				url: 'https://github.com/Sand-jrd/CALSI-Projet-S8-.git'
+				url: 'https://github.com/Sand-jrd/SampleApplicationWar.git'
+			
+		        // Set Variable
+			def files = findFiles(glob: '**/.pjs')
 		    }
 		}
 
@@ -32,17 +37,22 @@ pipeline {
 		stage ('Checkout') {
 			steps { 
 				script {
-					if (file_name.startsWith(file_name_requirements)) {
-						echo 'Checkout sucess'
-					} else {
-						currentBuild.result = 'ABORTED'
-    						error('Checkout failed')
+					
+					//Check for item
+					files.each { item ->
+						if (item.name.startsWith(file_name_requirements)) {
+							file_name = item.name;
+							echo 'Checkout sucess'
+						} else {
+							currentBuild.result = 'ABORTED'
+							error('Checkout failed')
+						}
 					}
 				}
 			}
 		}
 			
-		stage('Build') {
+		stage('Bucket Transition') {
 		    steps {
 			echo "no build for now"
 		    }
