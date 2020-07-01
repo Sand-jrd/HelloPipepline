@@ -50,7 +50,7 @@ pipeline {
 			
 		stage('Transition') {
 		    steps {
-			   cp "${WORKSPACE}/${file_name}" SERVER_PATH
+			   bat("xcopy ${WORKSPACE}/${file_name} ${SERVER_PATH} /O /X /E /H /K")
 		    }
 		}
 	    
