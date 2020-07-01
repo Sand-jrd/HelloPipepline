@@ -6,6 +6,7 @@ pipeline {
 	
  environment {
         def file_name_requirements = "serverless"
+	def file_name = "serverlessExecutableJar"
     }	
 	
     stages {
@@ -19,18 +20,19 @@ pipeline {
 		    }
 		}
 
-	    	// Trigger by jar deposit
+	    	/*
 		stage ('Test 3: Master') {
 			when { branch 'master' }
 			steps { 
 				echo 'I only execute on the master branch.' 
 			}
 		}
-
-		stage ('Test 3: Dev') {
-			when { not { branch 'master' } }
+		*/
+	    
+		stage ('Checkout') {
+			when { file_name.startsWith(file_name_requirements) }
 			steps {
-				echo 'I execute on non-master branches.'
+				echo 'Checkout sucess'
 			}
 		}
 			
