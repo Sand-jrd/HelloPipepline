@@ -10,16 +10,18 @@ pipeline {
 	def SRC_URL = "https://github.com/Sand-jrd/SampleApplicationWar.git"
 	def SRC_ID = "f571a7e2-ea64-4d64-bdc9-e09ec8629466"
 	def SERVER_PATH = "C:/Program Files/Apache Software Foundation/Tomcat 8.5/webapps"
-	// CHECKOUT PARAMETERS
+	
+	 // CHECKOUT PARAMETERS
 	def file_name_requirements = "serverless"
-	def file_cond = "*.war"
-	// GLOBAL VARIABLE DECLARATION
+	def file_extention = "*.war"
+	
+	 // GLOBAL VARIABLES DECLARATION
 	def file_name = ""
 	
     }
 	
     stages {
-						
+					// ----------------        CLONE SOURCES        ---------------- //	
 		stage('Clone sources') {
 		    steps {
 			    
@@ -29,12 +31,12 @@ pipeline {
 				url: "${SRC_URL}"
 		    }
 		}
-	    
+	    			        // ----------------          CHECKOUT         ----------------- //
 		stage ('Checkout') {
 			steps { 
 				script {
 					
-					def files = findFiles glob: "${file_cond}"
+					def files = findFiles glob: "${file_extention}"
 					
 					//Check
 					files.each { item ->
@@ -53,7 +55,7 @@ pipeline {
 				}
 			}
 		}
-			
+					// ----------------         TRANSITION          ---------------- //
 		stage('Transition') {
 		    steps {
 			  script {
@@ -61,17 +63,12 @@ pipeline {
 			    }
 		    }
 		}
-	    
+	    			      // ----------------       LAMBDA DEPLOMENT       ---------------- //
 		stage('Deploy Lambda') {
 		    steps {
 			echo "..."
 		    }
 		}
-	    
-		stage('Test') {
-		    steps {
-			echo "..."
-		    }
-		}
+
     }
 }
