@@ -4,7 +4,7 @@ Le centre BluAge de pessac est un des 5 point d'implenation de l'entreprise. Ell
 
 * Le partie R&D : Service dans lequelle s'integre mon stage. Le pôle R&D dirigé par Alexis Henry est charger du developpement des nouveaux produit BluAge.
 
-* La partie BluSight : Les outils de traduction que propose BluAge ne traduise pas une application à 100%. L'intervention d'un developpeur est necessaire. Bien que les outils sont consus pour faciliter le travail, il peux arriver que des entreprises ne souhaitent pas donner cette tâche à un developpeur en interne. Le pôle BluSight, dirigé par Youssef <INSERE NON DE FAMILLE>, est donc en charge d'uilisé les outils BluAge, afin de livré directement à l'entreprise qui en à fait la demande, un application traduite à 100%.
+* La partie BluSight : Les outils de traduction que propose BluAge ne traduise pas une application à 100%. L'intervention d'un developpeur est necessaire. Bien que les outils sont consus pour faciliter le travail, il peux arriver que des entreprises ne souhaitent pas donner cette tâche à un developpeur en interne. Le pôle BluSight, dirigé par Youssef Iraoui, est donc en charge d'uilisé les outils BluAge, afin de livré directement à l'entreprise qui en à fait la demande, un application traduite à 100%.
 
 * Le partie e-commerce : Les activié du pôle ecommerce sont exentré des deux autre pôle. Ce services n'a qu'un seul client : Intermarché. Son but est de maintenir et amélioré le site de e-commerce de la grande eneigne. 
 
@@ -12,7 +12,8 @@ CONTEXTE SCIENIFIQUE
 
 MISE A DISPOSITION DES SERVICES BLUAGE
 
-Pour mettre à disposition à disposition ces produits, bluAge utilise les serveur d'AWS, et notament Amazon Simple Storage Service, autrement appelé Amazon S3.
+Pour mettre à disposition à disposition ces produits, bluAge utilise les serveurs d'AWS, et notament Amazon Simple Storage Service, autrement appelé Amazon S3.
+Lorsque lon veux deploer des data sur Amazon s3, on commence par crée un "Bucket". Ce bucket est une conteneur pour les datas,  autement dit un répertoire. A l'interieur, on  place des objects. Un object est l'ensemble data + metadata. Ce bucket pourra petre déployer selon la/les regions shouaité, et celon le type de stockage voulu, parmis les services proposé par amazone (Services tarifé diférament, et conçu pour différent usage). Parmis les services poposé, deux nous interesserons dans le cadre du stage : 
 <INSERE EXPLICATION S3>
 
 NOUVEAU TYPE DE MISE A DISPOSITION
