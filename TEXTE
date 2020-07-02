@@ -4,17 +4,20 @@ Le centre BluAge de pessac est un des 5 point d'implenation de l'entreprise. Ell
 
 * Le partie R&D : Service dans lequelle s'integre mon stage. Le pôle R&D dirigé par Alexis Henry est charger du developpement des nouveaux produit BluAge.
 
-* La partie BluSight : Les outils de traduction que propose BluAge ne traduise pas une application à 100%. L'intervention d'un developpeur est necessaire. Bien que les outils sont consus pour faciliter le travail, il peux arriver que des entreprises ne souhaitent pas donner cette tâche à un developpeur en interne. Le pôle BluSight est donc en charge d'uilisé les outils BluAge, afin de livré directement à l'entreprise qui en à fait la demande, un application traduite à 100%.
+* La partie BluSight : Les outils de traduction que propose BluAge ne traduise pas une application à 100%. L'intervention d'un developpeur est necessaire. Bien que les outils sont consus pour faciliter le travail, il peux arriver que des entreprises ne souhaitent pas donner cette tâche à un developpeur en interne. Le pôle BluSight, dirigé par Youssef <INSERE NON DE FAMILLE>, est donc en charge d'uilisé les outils BluAge, afin de livré directement à l'entreprise qui en à fait la demande, un application traduite à 100%.
 
 * Le partie e-commerce : Les activié du pôle ecommerce sont exentré des deux autre pôle. Ce services n'a qu'un seul client : Intermarché. Son but est de maintenir et amélioré le site de e-commerce de la grande eneigne. 
-
 
 CONTEXTE SCIENIFIQUE
 
 MISE A DISPOSITION DES SERVICES BLUAGE
 
 Pour mettre à disposition à disposition ces produits, bluAge utilise les serveur d'AWS, et notament Amazon Simple Storage Service, autrement appelé Amazon S3.
+<INSERE EXPLICATION S3>
 
+NOUVEAU TYPE DE MISE A DISPOSITION
+
+Amazon ne cess de developper de porduit de point. En terme de serveur/cloud, la dernire nouveauté en date est le cloud "severless".  
 
 CLOUD SERVERLESS
 
@@ -28,7 +31,7 @@ Du point de vue du client, la continuité de services est garenti, et la factura
 
 PIPELINE
 
-Pour une meilleur compréension de la pipeline, nous allons la subdivisé en 2 partie : La chaine d'integration, et la chaine de déploment.
+Pour une meilleur compréension de la pipeline, nous allons la subdivisé en 3 parties : La chaine d'integration, et la chaine de déploment et la chaîne ACL (Access Control List)
 
 Description de la chaine d'integration
 
@@ -42,10 +45,43 @@ Etape 3 : L'application compilé et excutable est placé dans un "bucket" (Un bu
 
 A l'issue de la chaine d'integration, on obtient un bucket, contenan une application excutable opéraionnelle (certifié par des testes) près à être déployer chez AWS.
 
-Description de la chaine de deployment sur le cloud de AWS Serverless.
+Description de la chaine de deployment :
 
-Etape 1 : 
+Cette chaine decrit les etapes necessaire pour deployer un porduit sur le cloud de AWS Serverless.
+
+Etape 1 : Deploiment du produit sur s3 (sur une seule régrion)
+
+Etape 2 : Transformation en Layer (sur une seule régrion)
+
+Etape 3 : Deployer et tester une Lambda. (sur une seule régrion)
+
+Etape 4 : Diffuser sur le reste de la liste des regions
+
+A l'issue de la chaîne de deploment, le produit est bien stocker les serveurs AWS, mais il n'est pas encore à disposition des clients. A ce sae, seul le compte AWS qui à deployer le produit  à access
+
+Description de la chaine ACL :
+
+Etape 1 : Mise en place des ACL. Les deux étapes qui suivent sont charger de vérifié que les ACL ont été correctement extué.
+
+Etape 2 : [AVEC UN COMPTE QUELQUONQE] Deployer une Lambda avec un layer
+
+Etape 3 : executer la lambda
+
+Cette denière etapes marque la fin de la chaine, le code produit à été compilé, tester, deployer et executer.
+
+Travail à effectué : 
+
+Le travail efecuer consite en l'automatiser la pipeline dédié au déployment des solution BluAge sur AWS Serverless. C'est à dire,  la concretisaion de la chaine de deploymennt présenter plus tôt. La partie "chaine d'intergration" (cf. page <INSERSE PAGE>) n'est pas modifié qu'il 'agisse dun deploment sur les serveur s3 ou serverless. On se concentra donc uniquement sur la patie deploment, partie de la chaine effectuer sur AWS. 
+
+OUTILS UILISER
+
+page sur les outils, choix des outils
+
+CHOIX TECHNIQUES
+
+Choix d'une pipeline "déclarative" 
 
 
 
-Travail effectué : 
+
+
