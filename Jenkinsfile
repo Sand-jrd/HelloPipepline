@@ -62,7 +62,7 @@ pipeline {
 			    }
 		    }
 		}
-	    			      // ----------------       LAMBDA DEPLOMENT       ---------------- //
+	    			// ----------------       LAMBDA DEPLOMENT       ---------------- //
 		stage('Deploy Lambda') {
 		    steps {
 			echo "..."
