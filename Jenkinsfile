@@ -23,8 +23,7 @@ pipeline {
     stages {
 					// ----------------        CLONE SOURCES        ---------------- //	
 		stage('Clone sources') {
-		    steps {
-			cleanWs()    
+		    steps {			    
 			// Clone from git
 			git branch: 'master',
 				credentialsId: "${SRC_ID}",
