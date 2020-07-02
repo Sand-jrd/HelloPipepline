@@ -65,9 +65,15 @@ pipeline {
 	    			      // ----------------       LAMBDA DEPLOMENT       ---------------- //
 		stage('Deploy Lambda') {
 		    steps {
-			cleanWs()
+			echo ...
 		    }
 		}
 
-    }
+	}
+	post { 
+		always { 
+			cleanWs()
+		}
+	}
+	
 }
