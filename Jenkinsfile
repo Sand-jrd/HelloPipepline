@@ -16,7 +16,7 @@ pipeline {
 	def file_extention = "*.war"
 	
 	 // GLOBAL VARIABLES DECLARATION
-	def file_name = ""
+	def file_name = null
 	
     }
 	
@@ -46,7 +46,7 @@ pipeline {
 					}
 					
 					//Abort if no files founded
-					if (file_name == "") {
+					if (file_name == null) {
 							currentBuild.result = 'ABORTED'
 							error('Checkout failed')
 					}
