@@ -65,7 +65,7 @@ pipeline {
 	    			      // ----------------       LAMBDA DEPLOMENT       ---------------- //
 		stage('Deploy Lambda') {
 		    steps {
-			echo ...
+			echo "..."
 		    }
 		}
 
