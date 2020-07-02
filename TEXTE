@@ -3,3 +3,25 @@ Une architetcure de cloud dites "serverless" designe un cloud dans lequel le fou
 Une lambda est un environement d'execution ayant la particularié d'être "stateless". Cela signifie qu'a l'inverse d'un envrionement d'execution classque, comme un contneur ou une VM, il ne sont pas dependant de son historique d'execution. Ca ne veux pas dire pour autent quil sont contrain à des opéraion basique : Toute les data dont la lambda à besoin pour effecté une opéraion son socker dans une base de donné annexe.
 
 L'avantage de ce tpe d'environement et ça grande flexibilité, et ça résistance au panne : Tous dabord, l'espace mémoire necessaire à alloué, étant annexe à la lambda, est adapter au client. Mais surtout, si la lamnda échou, pour une raison quelquonque, une autre lambda parmis celle disponible pourra directement reprendre l'execution, simplement grâce à la base de donnée alloué au client. 
+
+Du point de vue du client, la continuité de services est garenti, et la facturaion du services est réduit strictement à se qu'il à utilisé. 
+
+
+Pour une meilleur compréension de la pipeline, nous allons la subdivisé en 2 partie : La chaine d'integration, et la chaine de déploment.
+
+Description de la chaine d'integration
+
+La chaine d'integration est la partie en charge de a compilation de l'application. Toute les opéraions réalisés se vont de manire "local", sur les serveurs de BluAge.
+
+Etape 1 : Un developpeur soumet son travail sur un gesionaire de sources (Dans notre cas, gitBit)
+
+Etape 2 : Le nouveau code sources est compilé et testé
+
+Etape 3 : L'application compilé et eecutable est placé dans un "bucket" (Un bucket est le terme utiliser pa Amazone pour désigner le contenant à l'intérieur duquel on peux stocker des données).
+
+A l'issue de la chaine d'integration, on obtient un bucket, contenan une application excutable opéraionnelle (certifié par des testes) près à être déployer chez AWS. Cette partie de la chaîne n'est pas différente 
+
+Description de la chaine de deployment sur le cloud de AWS Serverless.
+
+Etape 1 : 
+
