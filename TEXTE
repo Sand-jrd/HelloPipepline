@@ -77,6 +77,8 @@ OUTILS UILISER
 
 page sur les outils, choix des outils
 
+Apach TOMCAT : Ouils permettant entre autres de crée des son propre serveur. Ces fonctionnalité son bien plus large mais n'ont pas été uiliser dans le cadre du stage. Cette outils n'as également pas d'utilité dans la pipeline final, mais uniquement dans une phase de teste. Pour pouvoir tester simplement ceraine fonctionalité nécessaire à la chaine final, sans pour autant avoir à utilisé AWS, on simule le serveur Amazon s3 par un serveur local Apach.
+
 CHOIX TECHNIQUES
 
 Choix d'une pipeline "déclarative" 
