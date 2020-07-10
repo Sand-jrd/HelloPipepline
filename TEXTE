@@ -1,94 +1,50 @@
-BLUAGE PESSAC
+PRADET Sébastien (directeur ecommerce)
 
-Le centre BluAge de pessac est un des 5 point d'implenation de l'entreprise. Elle compte dans son service 15employé séparé dans 3 domaine d'acivité distincs :
+Réalisation Technique
 
-* Le partie R&D : Service dans lequelle s'integre mon stage. Le pôle R&D dirigé par Alexis Henry est charger du developpement des nouveaux produit BluAge.
+Nous avons vu dans la partie précédente, la chaîne de production qui doit être réalisé. Pour la concrétiser, une multitude d'options s'offre à nous. Une des tâches de se stage à été de faire choisir, parmis tous les outils, et toute les méthodes possible celles qui serait la plus adéquats.
 
-* La partie BluSight : Les outils de traduction que propose BluAge ne traduise pas une application à 100%. L'intervention d'un developpeur est necessaire. Bien que les outils sont consus pour faciliter le travail, il peux arriver que des entreprises ne souhaitent pas donner cette tâche à un developpeur en interne. Le pôle BluSight, dirigé par Youssef Iraoui, est donc en charge d'uilisé les outils BluAge, afin de livré directement à l'entreprise qui en à fait la demande, un application traduite à 100%.
+Livrables :
 
-* Le partie e-commerce : Les activié du pôle ecommerce sont exentré des deux autre pôle. Ce services n'a qu'un seul client : Intermarché. Son but est de maintenir et amélioré le site de e-commerce de la grande eneigne. 
+Une solution de pipeline devra rescpeer les points suivants : 
 
-CONTEXTE SCIENIFIQUE
+     - Doit être parametrables, et ces paramètres doivent être accésibles sans avoir à modifier le code. 
+     - Doit être sécurisé, les informations sensible (clef d'accès ect) ne doivent pas être accésible.
+     - Doit être peu coûteuse.
+     - Ne doit pas nécessiter d'intervention humaines, on cherche à construire une chaîne d'automatisaion, elle doit s'adater à tous les cas de figure possible
+     
+Dans l'idéal, on pourra également ajouter les livrables suivante : 
 
-MISE A DISPOSITION DES SERVICES BLUAGE
+     - Le suivit du bon déroulement de la Pipeline doit être facilement lisible
+     - Doit être facilement modifiable si lon veux adapter la solution pour d'autre type de produit
+     
+Présentation des différentes solutions : 
 
-Pour mettre à disposition à disposition ces produits, bluAge utilise les serveurs d'AWS, et notament Amazon Simple Storage Service, autrement appelé Amazon S3.
-Lorsque lon veux deploer des data sur Amazon s3, on commence par crée un "Bucket". Ce bucket est une conteneur pour les datas,  autement dit un répertoire. A l'interieur, on  place des objects. Un object est l'ensemble data + metadata. Ce bucket pourra petre déployer selon la/les regions shouaité, et celon le type de stockage voulu, parmis les services proposé par amazone (Services tarifé diférament, et conçu pour différent usage). Parmis les services poposé, deux nous interesserons dans le cadre du stage : 
-<INSERE EXPLICATION S3>
+Dans cette section vont être présenter les différentes solutions qui ont été envisagé. Certaine de ces solutions ne concerne qu'un bout de la chaine, et sont parfois combinable.
 
-NOUVEAU TYPE DE MISE A DISPOSITION
+PROPOSITION #1 : JENKINS
 
-Amazon ne cess de developper de porduit de point. En terme de serveur/cloud, la dernire nouveauté en date est le cloud "severless".  
+Jenkins est un outils de création de pipeline
 
-CLOUD SERVERLESS
+PROPOSITION #2 : UTILISER LES OUTILS DE CREATION DE PIPELINE DE AWS
 
-Une architetcure de cloud dites "serverless" designe un cloud dans lequel le fournisseur de serveur gère dynamiquement les ressources allouées au service client. Ainsi, un client est débarasser des tâches de gestion de serveur; AWS propose un services serverless basé sur la mise à disposition d'environnement 'stateless' (sans état) et ephemere : Les lambda.
+PROPOSITIONS #3 : OUTILS AWS 
 
-Une lambda est un environement d'execution ayant la particularié d'être "stateless". Cela signifie qu'a l'inverse d'un envrionement d'execution classque, comme un contneur ou une VM, il ne sont pas dependant de son historique d'execution. Ca ne veux pas dire pour autent quil sont contrain à des opéraion basique : Toute les data dont la lambda à besoin pour effecté une opéraion son socker dans une base de donné annexe.
+Les propositions qui vont suivre permet contourner les outils de pipeline de AWS. Elle demande plus d'effort de programmation, mais on les préfrera pour leurs côut plus faible.
+Tous ces outils sont tous de même des outils d'Amazone 
 
-L'avantage de ce tpe d'environement et ça grande flexibilité, et ça résistance au panne : Tous dabord, l'espace mémoire necessaire à alloué, étant annexe à la lambda, est adapter au client. Mais surtout, si la lamnda échou, pour une raison quelquonque, une autre lambda parmis celle disponible pourra directement reprendre l'execution, simplement grâce à la base de donnée alloué au client. 
+PROPOSITION #3 uno : STEP FUNCTION
 
-Du point de vue du client, la continuité de services est garenti, et la facturaion du services est réduit strictement à se qu'il à utilisé. 
+AWS Step funcins est un services web qui permet de coordiner les différent composant d'une chaîne d'opération ("Qu'on appelle généralement workflow ou flux d'opéraions"). Cette outils permet de séparé simplement chaque opérations et de pouvoir visualiser et suivre se flux de manière graphique (cf figure). 
+Le language pour programmer cete chîne est le "Amazon States Language", baser sur le JSON. Il permet d'executer toutes les opérations sur les services d'aws réalisable sur la console aws, ou par les sdk d'amazones. Ce services permet de facilité a transition entre les états mais ne réalise aucune execution. En revanche, il permet de manager des envionnement d'execution aws qui pourrons effectué du code, comme les lambdas.
 
-PIPELINE
+Les avantage de cette outils t ça facilié de comprehenion t son suivit graphique qui le rend trs simple à débuger lorsqu'il  a des erreurs. Amazone facture ce services par le nombre de transition effectué à 0,025 USD, soit 0,022 Euro pour 1 000 transitions d'état. Ajouter à cela, le prix d'execution des Lambdas.
 
-Pour une meilleur compréension de la pipeline, nous allons la subdivisé en 3 parties : La chaine d'integration, et la chaine de déploment et la chaîne ACL (Access Control List)
+PROPOSITION #3 bis : CLOUD FORMATION
 
-Description de la chaine d'integration
+AWS Step funcins est un services web qui permet de coordiner les différent composant d'une chaîne d'opération ("Qu'on appelle généralement workflow ou flux d'opéraions"). Cette outils permet de séparé simplement chaque opérations et de pouvoir visualiser et suivre se flux de manière graphique (cf figure). 
+Le language pour programmer cete chîne est le "Amazon States Language", baser sur le JSON. Il permet d'executer toutes les opérations sur les services d'aws réalisable sur la console aws, ou par les sdk d'amazones. Ce services permet de facilité a transition entre les états mais ne réalise aucune execution. En revanche, il permet de manager des envionnement d'execution aws qui pourrons effectué du code, comme les lambdas.
 
-La chaine d'integration est la partie en charge de a compilation de l'application. Toute les opéraions réalisés se vont de manire "local", sur les serveurs de BluAge.
+PROPOSITION #3 ters : Lambda et sdk
 
-Etape 1 : Un developpeur soumet son travail sur un gesionaire de sources (Dans notre cas, gitBit)
-
-Etape 2 : Le nouveau code sources est compilé et testé (Dans notre cas, à l'aide du moteur de production Maven)
-
-Etape 3 : L'application compilé et excutable est placé dans un "bucket" (Un bucket est le terme utiliser pa Amazone pour désigner le contenant à l'intérieur duquel on peux stocker des données).
-
-A l'issue de la chaine d'integration, on obtient un bucket, contenan une application excutable opéraionnelle (certifié par des testes) près à être déployer chez AWS.
-
-Description de la chaine de deployment :
-
-Cette chaine decrit les etapes necessaire pour deployer un porduit sur le cloud de AWS Serverless.
-
-Etape 1 : Deploiment du produit sur s3 (sur une seule régrion)
-
-Etape 2 : Transformation en Layer (sur une seule régrion)
-
-Etape 3 : Deployer et tester une Lambda. (sur une seule régrion)
-
-Etape 4 : Diffuser sur le reste de la liste des regions
-
-A l'issue de la chaîne de deploment, le produit est bien stocker les serveurs AWS, mais il n'est pas encore à disposition des clients. A ce sae, seul le compte AWS qui à deployer le produit  à access
-
-Description de la chaine ACL :
-
-Etape 1 : Mise en place des ACL. Les deux étapes qui suivent sont charger de vérifié que les ACL ont été correctement extué.
-
-Etape 2 : [AVEC UN COMPTE QUELQUONQE] Deployer une Lambda avec un layer
-
-Etape 3 : executer la lambda
-
-Cette denière etapes marque la fin de la chaine, le code produit à été compilé, tester, deployer et executer.
-
-Travail à effectué : 
-
-Le travail efecuer consite en l'automatiser la pipeline dédié au déployment des solution BluAge sur AWS Serverless. C'est à dire,  la concretisaion de la chaine de deploymennt présenter plus tôt. La partie "chaine d'intergration" (cf. page <INSERSE PAGE>) n'est pas modifié qu'il 'agisse dun deploment sur les serveur s3 ou serverless. On se concentra donc uniquement sur la patie deploment, partie de la chaine effectuer sur AWS. 
-
-OUTILS UILISER
-
-page sur les outils, choix des outils
-
-Apach TOMCAT : Ouils permettant entre autres de crée des son propre serveur. Ces fonctionnalité son bien plus large mais n'ont pas été uiliser dans le cadre du stage. Cette outils n'as également pas d'utilité dans la pipeline final, mais uniquement dans une phase de teste. Pour pouvoir tester simplement ceraine fonctionalité nécessaire à la chaine final, sans pour autant avoir à utilisé AWS, on simule le serveur Amazon s3 par un serveur local Apach.
-
-CHOIX TECHNIQUES
-
-Choix d'une pipeline "déclarative" 
-
-[default]
-aws_access_key_id=ASIAYTMKKY77R5S2JGXK
-aws_secret_access_key=JyFs8rh5Sn3zd17bExmqJYDGHjMo0qn9VCkabOxU
-aws_session_token=FwoGZXIvYXdzEDEaDOipudqP445/E+r0piLLARWDVcD6grVDziiXrmyXXnUWtFLe/H+CkxwY5SE/Wu8ZDU0oefCQwtoC2jHuQSB+nz7tHiEl2BKIpLEbTXzPdmgEnWcRgEgp0RSQsEEAGL7BREyxLdzmEGAEUZP7Z7CZVc8/l0iJPHC/IzS59HfWIAzkGZe2I9vkwBo6Us8YaiGduPVc69pB5pJs6/jyDR22PbhlVAGXe8G4hKmbq5M8nYUjsnQD5EBWO9QgZAqo9a22i90XKHN6InWZvSt+sX7m78JPX6hjCJFgzJGeKPSqi/gFMi1ujypGHpS0ctm0jVo162sk+iQdQNdP5BiHFHa7NQg0SWYGrmB0Tc840dZB5n0=
-
-
-
-
+Les lambdas son un envrionnement d'execution
