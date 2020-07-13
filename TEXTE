@@ -3,10 +3,11 @@ https://www.bluage.com/products/serverless-cobol-quickstart
 https://github.com/BluAge/ServerlessCOBOLforAWS
 https://www.youtube.com/watch?v=jhB39NlgGl4&feature=youtu.be&t=2806
 https://www.itforbusiness.fr/ce-qu-il-faut-retenir-d-aws-re-invent-2018-18837
+https://www.itforbusiness.fr/atouts-et-limites-du-serverless-computing-18219
 
 INTRODUCTION !!!! ARCHI BIEN
 
-Fin 2018, à l'occasion de la conférence AWS Re:invent à Las Vegas, BluAge présente officielement "serverless COBOL for AWS solution", ainsi qu'un compliateur, qui génère et compile en Java une application développer en COBOL. Une solution cohérante avec la volonter d'Amazone de banaliser l'utilisation du "Serverless", cette nouvelle manière, plus flexible, d'héberger des applicaion, des sites web ou des données sur le cloud. 
+Fin 2018, à l'occasion de la conférence AWS Re:invent à Las Vegas, BluAge présente officielement "serverless COBOL for AWS solution", ainsi qu'un compliateur, qui génère et compile en Java une application développer en COBOL. Une annonce cohérante avec la volonter d'Amazone de banaliser l'utilisation du "Serverless", cette nouvelle manière, plus flexible, d'héberger des applicaion, des sites web ou des données sur le cloud. 
 
 La solution serverless COBOL for AWS solution va être deployer de manière serverless donc, grâce a des micro environement d'execuion appelé Lambda.
 Grâce à cette outils, les developpeur COBOL pourrons appésent continué à utiliser leurs language favorit, tout pouvant compiler des déploer leurs application en java, sur des Lambda Amazone. 
@@ -15,7 +16,7 @@ Pourquoi la necessiter de compiler en Java un code écrit en COBOL ? Car le COBO
 
 Ce compliateur est le 1e produit BluAge à traduire du code à 100%, sans nécéssité aucune inervention humaine; Il est hebergé par amazone est disponible en tant que "Add on" de l'IDE Visual Studio Code. (Le protocole pour mettre en place le compilateur, du point de vue du client est illuster Annexe 1).
 
-A l'heure actuelle, les produits severless de BluAge son mise à disposition du client de manière manuelle. A partir de la console graphique de Amazone, chaque lambda est deployer manuellement dans les regions shouaiter et tester une à une. L'opération peut prendre une demi-journée, voir une journée complète pour chaque nouvelle verion publié. Il semble tèrs intessant, d'automatiser cette chaine de deployment. 
+A l'heure actuelle, les produits severless de BluAge sont mise à disposition du client de manière manuelle. A partir de la console graphique de Amazone, chaque lambda est deployer manuellement dans les regions shouaiter et tester une à une. L'opération peut prendre une demi-journée, voir une journée complète pour chaque nouvelle verion publié. Il semble tèrs intessant, d'automatiser cette chaine de deployment. 
 
 PB : blablabla
 
