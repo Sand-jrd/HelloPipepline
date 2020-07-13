@@ -4,13 +4,22 @@ https://github.com/BluAge/ServerlessCOBOLforAWS
 
 INTRODUCTION !!!! ARCHI BIEN
 
-During the last quarter of 2018, we introduced the serverless COBOL for AWS solution, making use of AWS Lambda Layers (officially presented during AWS Re:invent 2018) and our COBOL to java compiler.
+Fin 2018, à l'occasion de la conférence AWS Re:invent à Las Vegas, BluAge présente officielement "serverless COBOL for AWS solution", ainsi qu'un compliateur, qui génère et compile en Java une application développer en COBOL. Une solution cohérante avec la volonter d'Amazone de banaliser l'utilisation du "Serverless", cette nouvelle manière, plus flexible, d'héberger des applicaion, des sites web ou des données sur le cloud. 
 
-For the first time, COBOL developers were able to compile and deploy their code to AWS Lambda functions, using their favourite language, an universal IDE (Visual Studio Code) and a remote compiler service, hosted on AWS.
+La solution serverless COBOL for AWS solution va être deployer de manière serverless donc, grâce a des micro environement d'execuion appelé Lambda.
+Grâce à cette outils, les developpeur COBOL pourrons appésent continué à utiliser leurs language favorit, tout pouvant compiler des déploer leurs application en java, sur des Lambda Amazone. 
 
-During the first quarter of 2019, we wrote dedicated extensions to permit the COBOL code to interact with popular AWS services (SQS, S3, Kinesis, API Gateway, DynamoDB) and handle respective triggers for Lambda functions.
+Pourquoi la necessiter de compiler en Java un code écrit en COBOL ? Car le COBOL est en language que l'on pourrais qualifié d'obselete, pourtant, il est encore très présent dans les entreprises. BluAge à pour but d'accompagner ces entreprises dans leurs transitions digital. La plus par de leurs solutions sont des outils pour assiser les devellopeur dans la traduction de leurs applications du COBOL vers le Java ou le .Net. Néanmoins, il est parois difficile pour des developpeur COBOL de se reconvertir vers le Java. Le compilateur proposer par BluAge, permet d'évité les licenciment, sans restrindre l'entreprise dans leurs conversion digital en permetant au developpeur de continué à écrire en COBOL, iut en générant des applications dans un langauge plus moderne, le Java.
 
-At AWS Summit Tokyo 2019, in partnership with Accenture Japan, we demonstrated how we managed to migrate a CICS Online COBOL application into a serverless web application, relying on Lambda functions for the backend (see the video).
+Ce compliateur est le 1e produit BluAge à traduire du code à 100%, sans nécéssité aucune inervention humaine; Il est hebergé par amazone est disponible en tant que "Add on" de l'IDE Visual Studio Code. (Le protocole pour mettre en place le compilateur, du point de vue du client est illuster Annexe 1).
+
+A l'heure actuelle, les produits severless de BluAge son mise à disposition du client de manière manuelle. A partir de la console graphique de Amazone, chaque lambda est deployer manuellement dans les regions shouaiter et tester une à une. L'opération peut prendre une demi-journée, voir une journée complète pour chaque nouvelle verion publié. Il semble tèrs intessant, d'automatiser cette chaine de deployment. 
+
+PB : blablabla
+
+La chaîne de deployment va devoir être contruite à partir de zeros, aucun outils ou méthodes n'est déinit. Plusieur solution de prototpe sont envisagable, utilisant des outils classique de DevOps tel que Jenkings, mais aussi des outils très spéciique à Amazone tel que AWS Step function.
+Il eiste beacoup de chemains possible, la difficulter sera de choisir celui qui correspondra le mieux au besoin de BluAge. On veux par exemple que la pipeline soit la foix robuste aux erreurs, et flexible, mais aussi qu'elle ne laisse passer aucune informations sensible en claire, en d'autre termes qu'elle soit sécurisé.
+Ce rapport présentera la solution définitive pour la pipeline, et mettra en lumière les choix et les compromis qui ont du etre fait.
 
 Réalisation Technique
 
@@ -59,4 +68,8 @@ Le language pour programmer cete chîne est le "Amazon States Language", baser s
 
 PROPOSITION #3 ters : Lambda et sdk
 
-Les lambdas son un envrionnement d'execution
+Il est possible de faire executer la pipeline uniquement par les lambdas. AWS fournis des sdk (libairie) qui contient des fonctions permetant d'effecuer toutes les opérations sur tous les services proposer par Amazone. Parmis les language de progamation disponible, le python à été choisi pour se prptotype, avec la librai developper par Amazone, Boto3.
+
+Deux lambda on été utiliser pour cette pipeline de deploment. (cf. fig) La première Lambda va êter charger de récupéré le fichier 
+
+ANNEXE :  Comment un client ayant acheter une soluion bluAge uilise la layer -- Protocole. 
