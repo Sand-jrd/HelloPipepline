@@ -74,4 +74,9 @@ Il est possible de faire executer la pipeline uniquement par les lambdas. AWS fo
 
 Deux lambda on été utiliser pour cette pipeline de deploment. (cf. fig) La première Lambda va êter charger de récupéré le fichier 
 
+
+Limitation de la solution définitivie.
+
+
+
 ANNEXE :  Comment un client ayant acheter une soluion bluAge uilise la layer -- Protocole. 
