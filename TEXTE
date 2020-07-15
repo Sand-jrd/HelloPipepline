@@ -91,6 +91,6 @@ Notre modèle n'est pas parfaitement exacte mais il sera satisfesant pour notre 
 
 Soit est facturé durée de serverlessPipeline 35s (en comptant le temps d'attente) + durée des Deployer 14*2 = 28s  ==> durée facturé :  1min 3s
 
-
-
+DEINITION COLD START
+When we invoke the Lambda for the first time, it downloads the code from S3, downloads all the dependencies, creates a container, and starts the application before it executes the code. This whole duration (except the execution of code) is known as the cold start time.
 
