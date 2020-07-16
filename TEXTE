@@ -52,7 +52,18 @@ Il est possible de faire executer la pipeline uniquement par les lambdas. AWS fo
 Deux lambda on été utiliser pour cette pipeline de deploment. (cf. fig) La première Lambda va êter charger de récupéré le fichier 
 
 
-Limitation de la solution définitivie.
+DESCIPTION DE LA SOLUION DEINIIVE
+
+La solution choisi est la popositin #3, celle qui code la pipeline en pthon, avec la sdk d'amazone et qui la fait eecute su des Lambda.
+
+Pourquoi se choix ? 
+Le choix de cette solution est motivé d'un part, par sa fleibilité, mais egalement pour son cout très faible comparé au autre soluion poposé. Enfin, l'atout de cette méthode comparativement  lutilisation de Jenkings par exemple est que l'on utilise quand même des outils Amazone, et les opération sont efectuer de manière interne au compte amazone de l'entreprise. En d'autre terme, on élimine la necessité de devoir se logger et donc de transmetre des identifiants ni en claire. Cette solutions propose le meilleurs compromis entre sécuité, fleibilité et cout.
+
+Apreçu global : Lorsque les developpeurs publies une nouvelle version, il la push avec un outils de type git. S'en suit alors un script Jenking. C'est la chaîne d'intergration. Cette chaine va compilé et tester le code. A l'issue de cette chaine, la nouvelle verion du framework va être chargé dans le Bucket Source (cf fig). Ce fichier, c'est ceui indiquer sur le shema sous le nom de "Layer File". L'action de déposé un fichier dans le bucket va alors déclancher le script de la Pipeline sur une Lambda. Cette fonction que l'on nome "MainPipeline", va récupéré le fichier, publié la Layer, la tester, et ajouter les permissions on compte AWS qui doivent  avoir access. Toute ces opération sont effectuer dans la region par default (cannoniquement, en Virgini du Nord us-east-1). Puis avant de ce terminer, le scipt va déclancher de manire asyncrone (C'est à dire simultanément, comme des threads) N fonction lambda "Deployer". Chacune avec comme argument une regions différente. Leurs rôle, effectué le déployment de la layer dans la region qui leurs à été attitré. Elle vont donc à pari du bucket source, crée une copie de se bucket dans un bucket qui sera loalisé dans leurs régions, pour pouvoir publié le framework sous from d'une Layer dans leurs régions.
+
+Exemplication complémentaire
+
+Acess Control List.
 
 OPIMISAIN DES PERFORMANCES : 
 
@@ -71,8 +82,6 @@ Vérification du modèle : Durée empirique de serverlessPipeline pour 2 région
 Notre modèle n'est pas parfaitement exacte mais il sera satisfesant pour notre approximation. 
 
 Soit est facturé durée de serverlessPipeline 35s (en comptant le temps d'attente) + durée des Deployer 14*2 = 28s  ==> durée facturé :  1min 3s
-
-SOLUTION : 
 
 La première solution qui seble vidante pour résoudre se problème est de lancer les lambda "Deployer" de manière asyncrone (Soi en parralle) comme des Thread.
 
