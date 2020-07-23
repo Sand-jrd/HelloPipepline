@@ -1,6 +1,7 @@
 import logging
 import json
 import sys
+import random
 import ast 
 import urllib3
 
@@ -93,7 +94,8 @@ def lambda_handler(event, context):
         response = delete_bucket_completely(TEMP_BUCKET, REGION)
     except Exception as e :
         NotificationManager(SOURCE_BUCKET,SB_REGION,ACCOUNT_ID,TOPIC_SNS,DATE,REGION,True,False,"Impossible to delete temporary bucket in " + REGION + " , \n" + str(e))
-    
+     
+     
     return {
         'statusCode' : 200,
         'body'       : "WorkDone"
@@ -173,19 +175,23 @@ def create_bucket_name_check(TEMP_BUCKET,REGION):
     # -- Alias -- #
     s3 = boto3.client('s3', region_name=REGION)
     
-    TEMP_BUCKET = TEMP_BUCKET + "1"
+    NEW_TEMP_BUCKET = TEMP_BUCKET + "-" +addRandom(10)
     try:
         response = s3.create_bucket(
-            Bucket= TEMP_BUCKET,
+            Bucket= NEW_TEMP_BUCKET,
             CreateBucketConfiguration={'LocationConstraint': REGION }
         )
     except s3.exceptions.BucketAlreadyExists as e:
-        TEMP_BUCKET = create_bucket_name_check(TEMP_BUCKET,REGION)
+        NEW_TEMP_BUCKET = create_bucket_name_check(TEMP_BUCKET,REGION)
     except s3.exceptions.BucketAlreadyOwnedByYou as e:
-        warnings = TEMP_BUCKET + " BucketAlreadyOwnedByYou, it will be reused \n"
+        warnings = NEW_TEMP_BUCKET + " BucketAlreadyOwnedByYou, it will be reused \n"
     
-    return TEMP_BUCKET
+    return NEW_TEMP_BUCKET
 
+def addRandom(length) :
+    letters = 'abcdefghijklmnopqrstuvwxyz123456789'
+    result_str = ''.join(random.choice(letters) for i in range(length))
+    return result_str
 
 # Write in Logs
 def NotificationManager(SOURCE_BUCKET,SB_REGION,ACCOUNT_ID,TOPIC_SNS,date,region,sucess,snsmsg,*args) :

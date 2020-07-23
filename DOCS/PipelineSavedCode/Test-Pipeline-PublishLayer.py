@@ -53,7 +53,7 @@ def lambda_handler(event, context):
             FunctionName  = FCT_NAME,
             Layers        = ["arn:aws:lambda:"+REGION+":"+ACCOUNT_ID+":layer:"+LAYER_NAME+":"+str(lastest)],
         )
-    except client_regional.exceptions.ResourceNotFoundException as e :
+    except Exception as e :
        NotificationManager(SOURCE_BUCKET,SB_REGION,ACCOUNT_ID,TOPIC_SNS,DATE,REGION,False,True,"Lambda Test is missing in " + REGION + " , " + str(e))
     
     """ ---- ETAPE 3 : SET ACL ---- """  
@@ -71,16 +71,16 @@ def lambda_handler(event, context):
        NotificationManager(SOURCE_BUCKET,SB_REGION,ACCOUNT_ID,TOPIC_SNS,DATE,REGION,False,True,("An error occured when converting ACL.json file in " + REGION + " , " + str(e)))
     
     #Add Acl
-    for acl_client in json_content['client_list']:
+    for acl_client in json_content['Items']:
         try : 
             response = client_regional.add_layer_version_permission(
                 LayerName     = LAYER_NAME,
                 VersionNumber = lastest,
-                StatementId   = acl_client["CLIENT_NAME"],
+                StatementId   = acl_client["AWSCustomerID"]["S"],
                 Action        = 'lambda:GetLayerVersion',
-                Principal     = str(acl_client["CLIENT_ID"])
+                Principal     = acl_client["AWSAccountID"]["N"]
             )
-        except client_regional.exceptions.ResourceConflictException as e :
+        except Exception as e :
            NotificationManager(SOURCE_BUCKET,SB_REGION,ACCOUNT_ID,TOPIC_SNS,DATE,REGION,False,True,("ACL exeptions in " + REGION + " , " + str(e)))
 
     
@@ -116,7 +116,7 @@ def lambda_handler(event, context):
 def NotificationManager(SOURCE_BUCKET,SB_REGION,ACCOUNT_ID,TOPIC_SNS,date,region,sucess,snsmsg,*args) :
     
     client = boto3.client('lambda', region_name=SB_REGION)
-    
+
     responseOfDeployment = client.invoke(
         	FunctionName = "Test-Pipeline-Notification-Manager",
         	Payload=json.dumps({
