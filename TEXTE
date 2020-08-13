@@ -3,6 +3,38 @@ https://aws.amazon.com/fr/blogs/compute/managing-aws-lambda-function-concurrency
 https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html
 https://docs.aws.amazon.com/lambda/latest/dg/invocation-sync.html
 
+Introduction : 
+
+Objectif : Crée une chaine de déployment pour l'API vélocity de Blue Age.
+	
+Velocity est une API développer en java. Il existe déjà une châine d'intergration en charge de compiler et tester le produit. A l'issue de ce traitement, les fichier de l'API sont archiver sous forme de zip.
+La chaine de deployment sera en charge de mettre à disposition du client ce fichier sur une des platforme de stockage d'amazone, les buckets s3.
+
+Elle devra égalment :
+	* S'assurer que l'accès à ces espace de stockage est conigfigurer correctement et que seule les clients ont accès au produit.
+	* Tester l'API en tant que Layer, (soit en l'ajoutant en tant que Layer à une Lambda programmer pour faire des teste).
+	* Faire l'ensemble de ces étapes, dans toute les regions du cloud ou l'ont shouaite que l'API soit disponible.
+	
+Le shéma ci dessous représente les tâches que la pipeline devra effectuer. Il ne tient pas compte des spécificité techniques que l'ont pourrais rencontré.
+
+En résumé, le travail à effectuer est de concevoire, réalisé et finalisé une pipeline qui efectuera de manière 100% automatique les tâches présenté plus tôt.
+
+CONTEXTE TECHNIQUE :
+
+	Amazone propose des services informatiques à desinations des entreprises comme des particuliers, dans le domaine du cloud computiong. Elle propose un grand nombre de services, pour stocker, manager, des données et des application.
+	Parmis les services proposer, des espaces de sockage et des environnemen dexecution quil faudra utiliser, mais aussi des services de création de pipeline, ou de gestion de flux d'exeution que nous pourrons envisager d'utiliser.
+	
+		Amazone S3 : Simple Storage Service
+	
+		Environnement d'execution serverless : Lambda
+		
+		Amazone Step Function, Amazone Pipeline 
+		
+CONCEPTION :
+	
+	Afin de con
+		
+
 Réalisation Technique
 
 Nous avons vu dans la partie précédente, la chaîne de production qui doit être réalisé. Pour la concrétiser, une multitude d'options s'offre à nous. Une des tâches de se stage à été de faire des choix, parmis tous les outils, et toute les méthodes possible celles qui serait la plus adéquats. Pour cela, il es important de bien avoir en tête ce que on désir.
