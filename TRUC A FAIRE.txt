@@ -1,0 +1,10 @@
+- Ajouter les images
+- Checker la mise en forme
+- Checker le sommaire et les abréviao
+
+- Faire la page "recherche" 
+- Tous relire (corriger texte)
+- Tous relire (corriger transitions)
+- Corriger les fautes
+- Ajouter parie pour les problèmes de dépendances
+- Ajouter partie pour amélioraion de la vitesse d'écriture pour les logs
