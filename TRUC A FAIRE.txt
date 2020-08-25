@@ -1,10 +1,11 @@
-- Ajouter les images
-- Checker la mise en forme
-- Checker le sommaire et les abréviao
+- Ajouter les images <--- Ce soir
+- Checker la mise en forme <--- Ce soir
+- Checker le sommaire et les abréviaon <--- Ce soir
+- Mettre les ref au figure, titre et annexe
 
-- Faire la page "recherche" 
-- Tous relire (corriger texte)
-- Tous relire (corriger transitions)
+
+- Tous relire (corriger texte)  <--- Ce soir
+- Tous relire (corriger transitions)  <--- Ce soir
 - Corriger les fautes
-- Ajouter parie pour les problèmes de dépendances
-- Ajouter partie pour amélioraion de la vitesse d'écriture pour les logs
+- Reaire le schéma la y'a un trucs qui va pas. 
+
