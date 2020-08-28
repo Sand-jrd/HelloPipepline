@@ -1,0 +1,88 @@
+// -------------------------------------------------------------  PIPELINE FOR AWS SERVERLESS ------------------------------------------------------------- //
+
+// ToolsFonctions
+
+pipeline {
+	
+    agent any
+	
+ environment {
+	 
+	 // AWS s3 PARAMETERS
+	 def AWS_CLI = "C:\\Program Files\\Amazon\\AWSCLIV2\\aws.exe"
+	 def ID_Account = "623659375412"
+	 def REGION_LIST_STR = "['us-east-1','us-east-2']"
+	 def BUCKET_NAME = "depobucket1"
+	 
+	 //def BUCKET_CREDENTIAL = "C:\Users\s.juillard\Desktop\CrendentialFile\JenkinsKeys_codecommit_credentials.csv"  //Possible avec un compte IAM
+	 def aws_access_key_id = "ASIAYTMKKY77R5S2JGXK"
+	 def aws_secret_access_key = "36/jGfaiIeXkU4wkZcdQFhZ6ejibcq+P+4HCcOj9"
+	 def BUCKET_PATH = "s3://${BUCKET_NAME}"
+	 
+	 // ACL PARAMETERS
+	 def ACL_TEST_CREDENTIAL = "7b69568f-9794-4be8-a04b-7d98b44f5efc"
+	 def ACL_FLAG = "AuthenticatedRead" //Specifies the owner is granted Full Control and to the Authenticated Users group grantee is granted Read access
+	 
+	 // Lambda parameters
+	 def FUNCTION_NAME = "Test-Pipeline"
+	 //def TEST_CMD = "" //Command to test Lambda
+	 
+	 // Layer parameters
+	def LAYER_NAME = ""
+	def LAYER_DECPR = ""
+	def LAYER_LICENSE = ""
+	def RUNTIME = ""
+	 
+	 // CHECKOUT PARAMETERS
+	def file_name_requirements = "serverless"
+	def file_extention = "*.zip"
+	
+	 // GLOBAL VARIABLES DECLARATION
+	def file_name = "README.md"
+	
+    }
+	
+    stages {
+	    
+					// ----------------          CHECKOUT           ----------------- //
+		stage ('Checkout') {
+			steps { 
+				script {
+					
+					def files = findFiles glob: "${file_extention}"
+					
+					//Check
+					files.each { item ->
+						if (item.name.startsWith(file_name_requirements)) {
+							file_name = item.name
+							echo 'Checkout sucess'
+						}
+					}
+					
+					//Abort if no files founded
+					if (file_name == "null") {
+						currentBuild.result = 'ABORTED'
+						error('Checkout failed')
+						return
+					}
+					
+				}
+			}
+		}
+	    
+					// ----------------      CONNECTE TO BUCKET      ---------------- //
+	    
+		stage('Connecte to S3 Bucket') {
+		    steps {
+			    bat("\"${AWS_CLI}\" configure set aws_access_key_id ${aws_access_key_id}")
+			    bat("\"${AWS_CLI}\" configure set aws_secret_access_key ${aws_secret_access_key}")
+			    bat("\"${AWS_CLI}\" configure set default.region ${REGION_LIST[0]}")
+		    }
+		}
+	    
+					// ----------------      TRANSFER TO BUCKET      ---------------- //
+		stage('Deploy to S3 Bucket') {
+		    steps {
+			    bat("\"${AWS_CLI}\" s3 cp \"${WORKSPACE}\\${file_name}\" ${BUCKET_PATH}")
+		    }
+		}
