@@ -1,0 +1,15 @@
+{
+	"Type" : "AWS::Lambda::Function",
+	"Properties" : 
+	{
+		"FunctionName"     : "Test-Pipeline-LambdaToInvok",
+		"Runtime"          : "java8",
+		"Role"             : "arn:aws:iam::623659375412:role/intern-lambda-execution-role",
+		"Handler"          : "example.Hello::handleRequest",
+		"Description"      : "The Lambda in charge of testing the layer",
+		"Code" : {
+			"S3Bucket": "test-pipeline-lambdatest",
+			"S3Key"   : "CodeForLambda.jar"
+		}
+	}
+}

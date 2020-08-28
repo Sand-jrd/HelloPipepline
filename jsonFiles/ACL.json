@@ -1,0 +1,8 @@
+{
+	"Items" :
+	[
+		{"AWSAccountID": {"N": "623659375412"}, "AWSCustomerID": {"S": "Client2"}},
+		{"AWSAccountID": {"N": "623659375412"}, "AWSCustomerID": {"S": "Client1"}}
+
+	]
+}
