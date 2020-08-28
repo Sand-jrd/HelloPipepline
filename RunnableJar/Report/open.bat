@@ -1,0 +1,1 @@
+java -jar http-server.jar "%cd%" 8000 problems.html
