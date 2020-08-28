@@ -1,0 +1,1 @@
+Ce rapport détaillera la conception et la réalisation d'une architecture basée sur les fonctions Lambda permettant le déploiement d'un runtime sous forme de Layer AWS. Ce layer est utilisé par des applications COBOL traduites en JAVA et déployées sur des fonctions Lambda AW
