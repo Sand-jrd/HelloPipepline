@@ -1,0 +1,93 @@
+
+--------------- SLIDE 1 --------------------
+
+Bonjour, Je vais vous présenter le travail que j'ai efffectuer dans le cadre de mon stage chez Blu Age, qui a consister en la conception et la réalisation d'une chaîne de déploiment dans l'environnement d'Amazone Web Services.
+
+--------------- SLIDE 2 --------------------
+
+Blu Age est une société spécialisé dans la modernisation d'application. Beacoup d'entreprise ajourd'hui continue d'utilisé des application aces des architecture et utilisant des technologie en voie d'obselanance ou qui ne correspond plus aux standard actuel et future. Par exemple les applications CICS codé en COBOL, pour ne cité que lui. Blu Age accompagne les entreprise dans leurs transision digital, en developpant des outils de modernisation, qui permet de entre autre la traduction de ces applications dans un langaue plus moderne comme java ou .net.
+Pour vous donnez un exemple, l'offre cloud emergente c'est le "serverless". Qui correspond à déploiment auto-scalable et facturer à la demande. Le COBOL n'est pas adapter à un déploiment autoscalable et facturer à la demande.
+
+Il y a deux ans, Blu Age fait l'annonce d'un nouveau produit "serverless COBOL for AWS solution" qui permet déployer de manière « serverless » une application codé en COBOL. 
+En gros, un développeur pourra continuer à écrire et maitenir son application en COBOL, et de manière 100% automatique converir son application en java pour qu'elle puisse être déployer de manière serverless sur les mirco-envrionnement d'amazone appelé Lambda. Pour fonctionner, le client devra ajouter à sa fonction Lambda un Runtime sous forme de layer développer par Blu Age.
+
+Ce Runtime à l'heure actuel, il est déployer de manière manuelle. C'est une tâche pas forcément longue mais rébarbative et répétitive. Ca semblais donc judicieux d'automatiser cette tâche.
+
+--------------- SLIDE 3 --------------------
+
+Et donc, l'objectif de mon travail 
+Je vais commencé par vous présenter l'environnement Amazon Web Services, détailé des termes que j'ai déjà utilisé, comme les Lambda, les Layer... Et je vous expliquerais aussi plus en détails ce qu'est le produit serverless cobol pour AWS et comme ce fameux runtime s'integre à la solution.
+Après seulement, je vous précenterais toute les étapes de la réalisation du pipeline.
+Et puis, avec le temps qu'il me restera je vous présenterais les tâches supplémentaire
+
+--------------- SLIDE 4 --------------------
+
+Amazon Web Services c'est une platfrom qui propose une multitude de services informatique à destination des entreprise et des particulièer
+Parmis ces services, il y en a trois qu'il est essentielle d'introduire pour comprendre la suite. Ce sont Les Bucket S3 , les Lambda et les Layer.
+Un bucket (s3, pour Simple Storage Services) est un compartiment permet de stocker des Object ; un objet est la somme d’un fichier et de tout le méta data qui le décrive. Cet obkect ont va pouvoir lui ajouter des propriété et entre eutres des droit d'accès. 
+
+Ensuite, les Lambda : c’est l’environnement d’exécution sur laquelle le client pourra déployer son application. Cet environnement à la particularité d’être « sans état » et de ne nécessiter ni mise en services, ni gestion de serveur. C’est le fournisseur d’accès (c.-à-d. Amazon) qui se charge de l’administration des ressources; entre autres, la maintenance des servers, le dimensionnement et la mise l’échelles de la capacité, la surveillance et la journalisation des exécutions. Pour l’utilisateur, ce service permet de déployer simplement n’importe quel type d’application en étant facturer uniquement pour le temps de calcul utilisé. 
+Autre propriété interresante c'est que les Lambda sont naturellement intégré pour interagire avec les autres ressource et services d'Amazon. Par exemple sur la figure la, les Trigger et destination.
+Enfin les Layers. C’est une couche supplémentaire que l’on peut ajouter à une Lambda. : Une couche est une archive ZIP qui contient des bibliothèques, un environnement d’exécution personnalisé ou d'autres dépendances. Elle permet de créer un Runtime personnalisé. Ainsi, il n’est plus nécessaire d‘inclure les bibliothèques utilisées par la fonction Lambda dans le package de déploiement. (car une lambda est limité en taille de code et l'inclusion de toutes les librairies en dépendance peut s'avérer un problème). 
+
+Juste rajouter un petit details sur une spécificité thecnique de tous ça : Le cloud d'amazon il est composé de plusieurs région, et un object ce situé une region en particulier. et pour pouvoir interragir entre elles, ces ressource doivent se trouver dans la même region
+
+--------------- SLIDE 5 --------------------
+
+Voila, maiteant vous avez vu les principaux outils sur lequel repose la solution.
+
+Comme mentionner dans l'introduction, Serverless COBOL for AWS est une solution qui va perettre à un developpeur COBOL de déployé son application de manière serverless, en utilisant les Lambda. 
+Le client va codé son application, sur son IDE, visual Studio Code. Sur visual, il pourra ajouter l'extention "Blu Age COBOL". Cette extention lui permettra de compilé son application COBOL en java. Concrètement 
+
+--------------- SLIDE 6 --------------------
+
+TUTO client doit fournir ARN de la Layer. 
+
+--------------- SLIDE 7 --------------------
+
+Le contexte étant mise en place, on va pouvoir rentrée dans le vif du sujet la réalisation du pipeline. Ce pipeline, va devoir dépoyer le runtime de blu age en tant que Layer sur Amazon.
+Il devra egalement : o o  o
+Il faudra aussi faire attention à se qu'il soit facilement paramétrable, et sécurisé.
+
+Plusieurs outils candidate pour la réalisation de cette pipeline, je peux cité cloud formation, jenkins, code deploy, step fucntion.
+Après m'être rensigner sur tous ces outils et avoir fait des petit prototype, je suis arrivé à la conlusion que le meilleurs comprois entre flexibilité, sécurité et cout c'était de crée un work flow a partir de Lambda Amazon. Ces fonction sont codé en Python, elle utilise la bibliothèque d'Amazone BOTO3 qui permet de reproduire toute les action que l'on peux effectuer avec la console graphique de manière programatique.
+
+--------------- SLIDE 8 --------------------
+
+La chîne de déploiment commence à l'issue de la chane d'intergration (la compilatio, les teste, le packaging). Cette chaine est effectuer avec Jenkins chez Blu Age, et à l'issue de cette chaine, les fichier du runtime vont être uplaoder sur un bucket S3.
+Cette evenement, va déclanché une première Lambda, c'est la fonction principal de la de la pipeline qu'on va nommer Pipeline Manager.
+La première étape va être de déployé la runtime sur la region par default (virginie du nord).  Pour cela, le pipeline manager va faire apelle à une autre Lambda qu'elle invoquera de manière syncrone, la fonction Publish a Layer.
+Cette Lambda aura pour rôle, à partir des fichiers contenu dans le bucket de crée une nouvelle version de la layer (ou une nouvelle layer si elle n'existe pas encore), de la tester, puis d'ajouter les perssission aux autres compte avec les ACL.
+Une fois que cette étape est terminer et si elle a réussi, on passera au déploiment sur toute les regions.
+Pour àa, le pipeline manager invoquera de manière asyncrone cete fois N fonction deployer, 1 pour chaque region. Ces fonctions font avoi pour tache de déployer une layer dans une region donnée.Pour ça, elle vont crée un bucket temporaire, dans lequelle elle compirons le contenu du bucket source. Elle pourrons alors faire apelle à la fonction publish a Layer, celle la même qu'on a utilisé ici. Qui va pouvoir grace au bucket reproduire les étape de pubication.
+
+Toute ces Lambda sont effectuer de manière interne au compte Amazon de Blu Age. La seule étape qui necessite une identification c'est le upload dans le bucket source. Et à l'issue de la chaine on a bien deployer le runtime dans toute les rgion shouaiter.
+
+--------------- SLIDE 12 --------------------
+
+Maiteant on avait des livrable supplémentaire : Déjà on voulais que ça soit facilement paramétrable? C'est chose faite avec les variable d'environemment. Pour paramétré la pipeline, il faut configurer les variable d'environnement de la fonction Lambda principale le pipeline manager. La capture vous montre la vu dans la console. 
+
+--------------- SLIDE 13 --------------------
+
+Et deuxièmement on voulais que le bon déroublement de l'execution de la pipeine soit observable. Il y a deux méanisme pour ça : les journeaux d'execution et les notification. Dans les deux cas, on a un problème avec l'architecture que je vous ai présenter c'est que il fonctionne avec des processus indépendant est asyncrone. Par exemple pour les journeaux d'execution que Amazon offre par défault, c'est un journal par fonction et par execution. Et nous on voudais faire convergé les résultat de toute les fonction de la chaine. 
+
+Pour répondre à se problème, il y a une autre fonction Lambda qui n'apparait pas sur le shéma de l'architecture c'est la fonction Notificatio Manager. 
+
+Pour les journeaux personalisé leurs emplacement est dans le bucket source dans la region par default. Quand une fonction voudra écrire dedans, il fera appelle à cette fonction en passant en paramètre une information d'horodatage partagé par tous les maillions. 
+
+Et puis, pour les notification : Le but c'est de recevoir un mail, quand la chaine c'est déroulé correctement ou quand il y a un problème. C'est la capture que vous voyaer ici. Pour ça j'utilise un service d'amazone, Simple Notification Services. Le princripe c'est qu'on a un topic SNS et si on veux recevoir les infromation, on s'abonne et on reçois le flux d'information qui est publié sur le topic. Dans la fonction Lambda, quand il y aura un problème ou quand ça c'est bien passé, on va écrire sur le topic. Et tous comme le les jouneaux, ça passe par la fontion Notification Manager.
+
+Sauf que en plus il faut prendre en compte le cas ou les Lambda se terminer de manière non conventionelle et que on a pas pu intercepter l'erreur. 
+
+--------------- SLIDE 14 --------------------
+
+Le shéma ici il montre comment est géré l'envoie des notifications. Je vais pas expliquer le shéma en détail mais le but c'est d'être sur que si il y a un problème, une notification soit envoyé sans dupmiqué les envoie. En gros être sur que si il y a une errer on recois une et une seule notification pour cette erreur.
+
+--------------- SLIDE 15 --------------------
+
+ Voila, il y a pleinde détails sur la pipeline que j'ai pas pu developper par manque de temps, j'ai aussi fait des tâche supplémentaire que je pourrais pas présenter non plus, c'est dommage. J'vais juste conclure en disant que j'ai eu le temps de réflechir a beacoup d'aspect de la chaine et de venir à une slution qui me semble plutôt aboutis.
+
+
+
+
+
