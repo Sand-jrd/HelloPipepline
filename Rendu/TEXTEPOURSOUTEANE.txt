@@ -5,20 +5,22 @@ Bonjour, Je vais vous présenter le travail que j'ai efffectuer dans le cadre de
 
 --------------- SLIDE 2 --------------------
 
-Blu Age est une société spécialisé dans la modernisation d'application. Beacoup d'entreprise ajourd'hui continue d'utilisé des application aces des architecture et utilisant des technologie en voie d'obselanance ou qui ne correspond plus aux standard actuel et future. Par exemple les applications CICS codé en COBOL, pour ne cité que lui. Blu Age accompagne les entreprise dans leurs transision digital, en developpant des outils de modernisation, qui permet de entre autre la traduction de ces applications dans un langaue plus moderne comme java ou .net.
-Pour vous donnez un exemple, l'offre cloud emergente c'est le "serverless". Qui correspond à déploiment auto-scalable et facturer à la demande. Le COBOL n'est pas adapter à un déploiment autoscalable et facturer à la demande.
+Blu Age est une société spécialisé dans la modernisation d'application. Beacoup d'entreprise ajourd'hui continue d'utilisé des application aces des architecture et utilisant des technologie en voie d'obselanance ou qui ne correspond plus aux standard actuel et future. Blu Age accompagne les entreprise dans leurs transision digital, en developpant des outils de modernisation, qui permet de entre autre la traduction de ces applications dans un langaue plus moderne comme java ou .net.
+Comme les applications CICS codé en COBOL, qui sont des application de gestion codé en COBOL. 
 
-Il y a deux ans, Blu Age fait l'annonce d'un nouveau produit "serverless COBOL for AWS solution" qui permet déployer de manière « serverless » une application codé en COBOL. 
-En gros, un développeur pourra continuer à écrire et maitenir son application en COBOL, et de manière 100% automatique converir son application en java pour qu'elle puisse être déployer de manière serverless sur les mirco-envrionnement d'amazone appelé Lambda. Pour fonctionner, le client devra ajouter à sa fonction Lambda un Runtime sous forme de layer développer par Blu Age.
+Et donc l'offre cloud emergente c'est le "serverless". Qui correspond à déploiment auto-scalable et facturer à la demande. Et evidement les application COBOL ne sont pas compatible avec ce genre de services. 
 
-Ce Runtime à l'heure actuel, il est déployer de manière manuelle. C'est une tâche pas forcément longue mais rébarbative et répétitive. Ca semblais donc judicieux d'automatiser cette tâche.
+Donc, pour permettre à un developpeur COBOL de continué à maitenir et écrire son application en COBOL tout en proffitant du serverless, Blu Age à mise au point un un nouveau produit "serverless COBOL for AWS solution". 
+La solution permettra de passer son application du COBOL au JAVA de manière 100% automatique pour qu'elle puisse être déployer sur les mirco-envrionnement d'amazone appelé Lambda. Pour fonctionner, le client devra ajouter à sa fonction Lambda un Runtime sous forme de layer développer par Blu Age.
+Tous ces terme Lambda, layer, je préciserais à quoi ça correspond. Si j'en parle c'est pour que vous compreniez le but de mon travail qui va concernet ce fameux Runtime 
+
+A l'heure actuel, il est mise a disposition de manière manuelle. C'est une tâche pas forcément longue mais rébarbative et répétitive. D'ou l'objectif de mon travail :
 
 --------------- SLIDE 3 --------------------
 
-Et donc, l'objectif de mon travail 
 Je vais commencé par vous présenter l'environnement Amazon Web Services, détailé des termes que j'ai déjà utilisé, comme les Lambda, les Layer... Et je vous expliquerais aussi plus en détails ce qu'est le produit serverless cobol pour AWS et comme ce fameux runtime s'integre à la solution.
 Après seulement, je vous précenterais toute les étapes de la réalisation du pipeline.
-Et puis, avec le temps qu'il me restera je vous présenterais les tâches supplémentaire
+Donc comment j'ai procédé pour convevoir la pipeline puis en vous précentant la solution finale, d'abord de manière global, puis en zoomant sur les détails important.
 
 --------------- SLIDE 4 --------------------
 
@@ -30,7 +32,8 @@ Ensuite, les Lambda : c’est l’environnement d’exécution sur laquelle le c
 Autre propriété interresante c'est que les Lambda sont naturellement intégré pour interagire avec les autres ressource et services d'Amazon. Par exemple sur la figure la, les Trigger et destination.
 Enfin les Layers. C’est une couche supplémentaire que l’on peut ajouter à une Lambda. : Une couche est une archive ZIP qui contient des bibliothèques, un environnement d’exécution personnalisé ou d'autres dépendances. Elle permet de créer un Runtime personnalisé. Ainsi, il n’est plus nécessaire d‘inclure les bibliothèques utilisées par la fonction Lambda dans le package de déploiement. (car une lambda est limité en taille de code et l'inclusion de toutes les librairies en dépendance peut s'avérer un problème). 
 
-Juste rajouter un petit details sur une spécificité thecnique de tous ça : Le cloud d'amazon il est composé de plusieurs région, et un object ce situé une region en particulier. et pour pouvoir interragir entre elles, ces ressource doivent se trouver dans la même region
+Je rajoute jsute une spécificité importante : Le cloud d'amazon il est composé de plusieurs région, et un object ce situé une region en particulier. et pour pouvoir interragir entre elles, ces ressource doivent se trouver dans la même region.
+Aussi, tous les ressources que l'on crée elle appartienne à un compte Amazon spécifique mais on peux configuré des droit d'accès pour qu'elle soit accesible par d'autre compte. Par ewemle il est possible 
 
 --------------- SLIDE 5 --------------------
 
